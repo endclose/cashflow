@@ -1,0 +1,58 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-08-03 15:29:12.310386",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "group",
+  "description",
+  "total",
+  "deadline"
+ ],
+ "fields": [
+  {
+   "fieldname": "group",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Group",
+   "link_filters": "[[\"Group\",\"enabled\",\"=\",1],[\"Group\",\"type\",\"=\",\"Income\"]]",
+   "options": "Group",
+   "reqd": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Description",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "total",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Total",
+   "reqd": 1
+  },
+  {
+   "fieldname": "deadline",
+   "fieldtype": "Date",
+   "label": "Deadline",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-08-03 15:34:52.388189",
+ "modified_by": "Administrator",
+ "module": "Cashflow",
+ "name": "Income",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
