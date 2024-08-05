@@ -22,7 +22,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Type",
-   "options": "Income\nOutcome",
+   "options": "Income\nExpense",
    "reqd": 1
   },
   {
@@ -36,10 +36,10 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-03 13:22:20.696851",
+ "modified": "2024-08-05 13:32:19.779998",
  "modified_by": "Administrator",
  "module": "Cashflow",
- "name": "Group",
+ "name": "Cashflow Group",
  "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [

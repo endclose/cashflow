@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class Group(Document):
+class CashflowMovement(Document):
 	pass

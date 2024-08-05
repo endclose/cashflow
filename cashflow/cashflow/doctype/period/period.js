@@ -21,58 +21,52 @@ frappe.ui.form.on('Period', {
             frm.refresh_fields();
         }
     },
-    incomes(frm) {
-        console.log(frm.doc.incomes);
-    },
     refresh(frm) {},
 });
 
-frappe.ui.form.on('Income', {
-    incomes_add(frm) {
-        recalculate(frm);
-    },
-    incomes_remove(frm) {
-        recalculate(frm);
-    },
-    total(frm) {
-        recalculate(frm);
-    },
-    deadline(frm, cdt, cdn) {
-        check_date_bewteen(frm, cdt, cdn);
-    },
-});
-
-frappe.ui.form.on('Outcome', {
-    outcomes_add(frm) {
-        recalculate(frm);
-    },
-    outcomes_remove(frm) {
+frappe.ui.form.on('Cashflow Movement', {
+    movements_add(frm, cdt, cdn) {},
+    movements_remove(frm) {
         recalculate(frm);
     },
     total(frm) {
         recalculate(frm);
     },
-    deadline(frm, cdt, cdn) {
+    group(frm) {
+        recalculate(frm);
+    },
+    date(frm, cdt, cdn) {
         check_date_bewteen(frm, cdt, cdn);
     },
 });
 
 const recalculate = (frm) => {
     let total_incomes = 0;
-    let total_outcomes = 0;
+    let total_expenses = 0;
+    let cash_now = frm.doc.cash_now;
 
-    frm.doc.incomes.forEach(
-        (income) => (total_incomes += parseFloat(income.total))
-    );
-    frm.doc.outcomes.forEach(
-        (outcome) => (total_outcomes += parseFloat(outcome.total))
-    );
+    frm.doc.movements.forEach((movement) => {
+        switch (movement.type) {
+            case 'Income':
+                total_incomes += movement.total;
+                cash_now += movement.total;
+                break;
+            case 'Expense':
+                total_expenses += movement.total;
+                cash_now -= movement.total;
+                break;
+        }
+        frappe.model.set_value(
+            movement.doctype,
+            movement.name,
+            'running',
+            cash_now
+        );
+    });
     frm.set_value(
         'cash_at_end',
-        frm.doc.cash_now + total_incomes - total_outcomes
+        frm.doc.cash_now + total_incomes - total_expenses
     );
-    console.log(total_incomes, total_outcomes);
-    console.log(frm.doc.incomes);
 };
 
 const check_date_bewteen = (frm, cdt, cdn) => {
@@ -87,23 +81,17 @@ const check_date_bewteen = (frm, cdt, cdn) => {
             message: 'You must set the period dates first',
         });
     }
-    if (
-        register.deadline < frm.doc.date_from ||
-        register.deadline > frm.doc.date_to
-    ) {
+    if (register.date < frm.doc.date_from || register.date > frm.doc.date_to) {
         frappe.msgprint('The deadline must be between the period dates');
-        frappe.model.set_value(cdt, cdn, 'deadline', '');
+        frappe.model.set_value(cdt, cdn, 'date', '');
         frm.refresh_fields();
     }
 };
 
 const sort_registers = (frm) => {
-    const incomes_sorted = frm.doc.incomes.sort((a, b) => {
-        return new Date(a.deadline) - new Date(b.deadline);
+    const movements_sorted = frm.doc.movements.sort((a, b) => {
+        return new Date(a.date) - new Date(b.date);
     });
-    const outomes_sorted = frm.doc.outcomes.sort((a, b) => {
-        return new Date(a.deadline) - new Date(b.deadline);
-    });
-    frm.set_value('incomes', incomes_sorted);
-    frm.set_value('outcomes', outomes_sorted);
+
+    frm.set_value('movements', movements_sorted);
 };

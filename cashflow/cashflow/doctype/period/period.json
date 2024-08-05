@@ -7,13 +7,13 @@
  "field_order": [
   "date_from",
   "date_to",
+  "period_before",
   "column_break_pzsc",
   "cash_now",
   "cash_at_end",
   "currency",
   "section_break_tfdk",
-  "incomes",
-  "outcomes"
+  "movements"
  ],
  "fields": [
   {
@@ -37,8 +37,7 @@
    "fieldtype": "Float",
    "in_list_view": 1,
    "label": "Cash now",
-   "reqd": 1,
-   "set_only_once": 1
+   "reqd": 1
   },
   {
    "fieldname": "cash_at_end",
@@ -61,25 +60,26 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "incomes",
-   "fieldtype": "Table",
-   "label": "Incomes",
-   "options": "Income"
-  },
-  {
-   "fieldname": "outcomes",
-   "fieldtype": "Table",
-   "label": "Outcomes",
-   "options": "Outcome"
-  },
-  {
    "fieldname": "column_break_pzsc",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "movements",
+   "fieldtype": "Table",
+   "label": "Movements",
+   "options": "Cashflow Movement"
+  },
+  {
+   "fieldname": "period_before",
+   "fieldtype": "Link",
+   "label": "Period before",
+   "link_filters": "[[\"Period\",\"name\",\"!=\",\"ID\"]]",
+   "options": "Period"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-03 15:31:56.182802",
+ "modified": "2024-08-05 15:46:51.757847",
  "modified_by": "Administrator",
  "module": "Cashflow",
  "name": "Period",
