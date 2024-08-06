@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestPeriod(FrappeTestCase):
+class TestCashflowPeriod(FrappeTestCase):
 	pass

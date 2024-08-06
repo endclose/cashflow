@@ -73,17 +73,17 @@
    "fieldname": "period_before",
    "fieldtype": "Link",
    "label": "Period before",
-   "link_filters": "[[\"Period\",\"name\",\"!=\",\"ID\"]]",
-   "options": "Period"
+   "options": "Cashflow Period"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-05 15:46:51.757847",
+ "modified": "2024-08-05 19:00:13.463803",
  "modified_by": "Administrator",
  "module": "Cashflow",
- "name": "Period",
+ "name": "Cashflow Period",
  "naming_rule": "Set by user",
+ "nsm_parent_field": "parent_period",
  "owner": "Administrator",
  "permissions": [
   {

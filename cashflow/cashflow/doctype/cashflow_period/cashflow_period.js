@@ -1,7 +1,7 @@
 // Copyright (c) 2024, Benjamin Bailon and contributors
 // For license information, please see license.txt
 
-frappe.ui.form.on('Period', {
+frappe.ui.form.on('Cashflow Period', {
     before_save(frm) {
         sort_registers(frm);
     },
@@ -25,7 +25,9 @@ frappe.ui.form.on('Period', {
 });
 
 frappe.ui.form.on('Cashflow Movement', {
-    movements_add(frm, cdt, cdn) {},
+    movements_add(frm, cdt, cdn) {
+        console.log(frm.doc.movements[frm.doc.movements.length - 1]);
+    },
     movements_remove(frm) {
         recalculate(frm);
     },
@@ -48,14 +50,23 @@ const recalculate = (frm) => {
     frm.doc.movements.forEach((movement) => {
         switch (movement.type) {
             case 'Income':
+                movement.total = Math.abs(movement.total);
                 total_incomes += movement.total;
                 cash_now += movement.total;
                 break;
             case 'Expense':
+                movement.total = Math.abs(movement.total) * -1;
+
                 total_expenses += movement.total;
-                cash_now -= movement.total;
+                cash_now += movement.total;
                 break;
         }
+        frappe.model.set_value(
+            movement.doctype,
+            movement.name,
+            'total',
+            movement.total
+        );
         frappe.model.set_value(
             movement.doctype,
             movement.name,
@@ -65,7 +76,7 @@ const recalculate = (frm) => {
     });
     frm.set_value(
         'cash_at_end',
-        frm.doc.cash_now + total_incomes - total_expenses
+        frm.doc.cash_now + total_incomes + total_expenses
     );
 };
 
@@ -82,7 +93,9 @@ const check_date_bewteen = (frm, cdt, cdn) => {
         });
     }
     if (register.date < frm.doc.date_from || register.date > frm.doc.date_to) {
-        frappe.msgprint('The deadline must be between the period dates');
+        frappe.msgprint(
+            `The date must be between ${frm.doc.date_from} and ${frm.doc.date_to}, please check`
+        );
         frappe.model.set_value(cdt, cdn, 'date', '');
         frm.refresh_fields();
     }
