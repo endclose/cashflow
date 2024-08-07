@@ -1,7 +1,9 @@
 {
  "actions": [],
+ "allow_rename": 1,
  "autoname": "prompt",
  "creation": "2024-08-03 13:04:39.877817",
+ "default_view": "Dashboard",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -37,6 +39,7 @@
    "fieldtype": "Float",
    "in_list_view": 1,
    "label": "Cash now",
+   "read_only_depends_on": "eval:doc.period_before != undefined && !!doc.period_before",
    "reqd": 1
   },
   {
@@ -78,7 +81,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-05 19:00:13.463803",
+ "modified": "2024-08-07 12:43:17.971183",
  "modified_by": "Administrator",
  "module": "Cashflow",
  "name": "Cashflow Period",

@@ -21,7 +21,52 @@ frappe.ui.form.on('Cashflow Period', {
             frm.refresh_fields();
         }
     },
-    refresh(frm) {},
+    async period_before(frm, cdt, cdn) {
+        if (frm.doc.period_before) {
+            if (frm.doc.period_before == frm.doc.name) {
+                frappe.msgprint('You cannot select the same period');
+                frm.set_value('period_before', '');
+                frm.refresh_fields();
+                return;
+            }
+
+            const period_before = await frappe.db.get_doc(
+                'Cashflow Period',
+                frm.doc.period_before
+            );
+            if (period_before.currency != frm.doc.currency) {
+                frappe.msgprint(
+                    'The currency of the previous period is different from the current period'
+                );
+                frm.set_value('period_before', '');
+                frm.refresh_fields();
+                return;
+            }
+            if (period_before) {
+                console.log(period_before);
+                frm.set_value('cash_now', period_before.cash_at_end);
+                frm.set_value('currency', period_before.currency);
+            }
+        }
+    },
+    refresh(frm) {
+        // Button to retrieve the current period before cast at end
+        if (frm.doc.period_before) {
+            frm.add_custom_button('Refresh cash now', async () => {
+                const period_before_cash = await frappe.db.get_value(
+                    'Cashflow Period',
+                    { name: frm.doc.period_before },
+                    'cash_at_end'
+                );
+                if (period_before_cash) {
+                    frm.set_value(
+                        'cash_now',
+                        period_before_cash.message.cash_at_end
+                    );
+                }
+            });
+        }
+    },
 });
 
 frappe.ui.form.on('Cashflow Movement', {
