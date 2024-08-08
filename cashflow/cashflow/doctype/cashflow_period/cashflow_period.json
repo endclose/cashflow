@@ -3,7 +3,7 @@
  "allow_rename": 1,
  "autoname": "prompt",
  "creation": "2024-08-03 13:04:39.877817",
- "default_view": "Dashboard",
+ "default_view": "List",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -81,7 +81,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-07 12:43:17.971183",
+ "modified": "2024-08-07 18:06:34.628103",
  "modified_by": "Administrator",
  "module": "Cashflow",
  "name": "Cashflow Period",
