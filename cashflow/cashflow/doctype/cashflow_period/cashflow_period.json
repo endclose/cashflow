@@ -81,7 +81,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-07 18:06:34.628103",
+ "modified": "2024-08-07 21:21:50.693579",
  "modified_by": "Administrator",
  "module": "Cashflow",
  "name": "Cashflow Period",
@@ -102,7 +102,7 @@
    "write": 1
   }
  ],
- "sort_field": "modified",
+ "sort_field": "name",
  "sort_order": "DESC",
  "states": []
 }

@@ -7,9 +7,7 @@ from frappe.model.document import Document
 
 class CashflowPeriod(Document):
 	def before_save(self):
-		if self.period_before:
-			cashflow_period_before = frappe.get_doc("Cashflow Period", self.period_before)
-			self.cash_now = cashflow_period_before.cash_at_end
+		self.set_cash_now()
 		self.sort_by_date()
 		self.recalculate_totals()
 	
@@ -32,3 +30,20 @@ class CashflowPeriod(Document):
 	
 	def sort_by_date(self):
 		self.movements.sort(key=lambda x: x.date, reverse=False)
+	
+	def set_cash_now(self):
+		if self.period_before:
+			cashflow_period_before = frappe.get_doc("Cashflow Period", self.period_before)
+			self.cash_now = cashflow_period_before.cash_at_end
+
+	def get_all_movements_by_group(self):
+		movements = {}
+		for movement in self.movements:
+			if movement.group not in movements:
+				movements[movement.group] = []
+			movements[movement.group].append({
+				'description': movement.description,
+				'date': movement.date,
+				'total': movement.total,
+			})
+		return movements
